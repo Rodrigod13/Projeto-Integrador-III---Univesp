@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratações Realizadas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contratacoes.css') }}">
+</head>
+<body>
+    <h1>Contratações Realizadas</h1>
+
+    {% if contratacoes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Serviço</th>
+                    <th>Data</th>
+                    <th>Detalhes</th>
+                    <th>Funcionário</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contratacao in contratacoes %}
+                <tr>
+                    <td>{{ contratacao.servico }}</td>
+                    <td>{{ contratacao.data.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ contratacao.detalhes }}</td>
+                    <td>{{ contratacao.funcionario.nome }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhuma contratação realizada.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Voltar</a>
+</body>
+</html>

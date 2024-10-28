@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratação de Serviços Domésticos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        function showSection(section) {
+
+            document.getElementById('cadastro').style.display = 'none';
+            document.getElementById('contratacao').style.display = 'none';
+            document.getElementById('visualizar-contratacoes').style.display = 'none';
+
+            document.getElementById(section).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="showSection('cadastro')">Cadastro de Funcionários</a></li>
+                <li><a href="javascript:void(0)" onclick="showSection('contratacao')">Contratação de Serviços</a></li>
+                <li><a href="javascript:void(0)" onclick="showSection('visualizar-contratacoes')">Visualizar Contratações</a></li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <section id="cadastro" style="display: none;">
+                <h1>Cadastro de Funcionários</h1>
+                <form action="/cadastro" method="POST">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" name="telefone" required>
+                    
+                    <label for="funcao">Função:</label>
+                    <select id="funcao" name="funcao">
+                        <option value="faxineiro">Faxineiro</option>
+                        <option value="cozinheiro">Cozinheiro</option>
+                        <option value="babá">Babá</option>
+                        <option value="jardineiro">Jardineiro</option>
+                    </select>
+                    
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </section>
+
+            <section id="contratacao" style="display: none;">
+                <h1>Contratação de Serviços</h1>
+                <form action="/contratacao" method="POST">
+                    <label for="servico">Serviço:</label>
+                    <select id="servico" name="servico">
+                        <option value="faxina">Faxina</option>
+                        <option value="cozinha">Cozinha</option>
+                        <option value="cuidado_criancas">Cuidado de Crianças</option>
+                        <option value="jardinagem">Jardinagem</option>
+                    </select>
+            
+                    <label for="data">Data do Serviço:</label>
+                    <input type="date" id="data" name="data" required>
+            
+                    <label for="detalhes">Detalhes do Serviço:</label>
+                    <textarea id="detalhes" name="detalhes" rows="4"></textarea>
+                    
+                    <label for="funcionario_id">Funcionário:</label>
+                    <select id="funcionario_id" name="funcionario_id" required>
+                        {% for funcionario in funcionarios %}
+                            <option value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit">Contratar</button>
+                </form>
+            </section>
+
+            <section id="visualizar-contratacoes" style="display: none;">
+                <h1>Contratações Realizadas</h1>
+                {% if contratacoes %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Data</th>
+                                <th>Detalhes</th>
+                                <th>Funcionário</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contratacao in contratacoes %}
+                            <tr>
+                                <td>{{ contratacao.servico }}</td>
+                                <td>{{ contratacao.data.strftime('%d/%m/%Y') }}</td>
+                                <td>{{ contratacao.detalhes }}</td>
+                                <td>{{ contratacao.funcionario.nome }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Nenhuma contratação realizada.</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</body>
+</html>
