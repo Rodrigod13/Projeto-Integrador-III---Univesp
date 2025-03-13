@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contratação de Serviços Domésticos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Exemplo de estilo para ocultar as seções */
+        .hidden {
+            display: none;
+        }
+
+        /* Responsividade: Ajusta a exibição da barra lateral em telas pequenas */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                width: 100%;
+            }
+        }
+    </style>
     <script>
+        /* Função que altera as seções visíveis utilizando a classe 'hidden' em vez de manipular 'style' diretamente */
         function showSection(section) {
-
-            document.getElementById('cadastro').style.display = 'none';
-            document.getElementById('contratacao').style.display = 'none';
-            document.getElementById('visualizar-contratacoes').style.display = 'none';
-
-            document.getElementById(section).style.display = 'block';
+            const sections = ['cadastro', 'contratacao', 'visualizar-contratacoes'];
+            sections.forEach(function(id) {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(section).classList.remove('hidden');
         }
     </script>
 </head>
@@ -21,6 +37,7 @@
         <nav class="sidebar">
             <h2>Menu</h2>
             <ul>
+                <!-- Adição de links de navegação mais claros, usando a função 'showSection' para alternar entre seções -->
                 <li><a href="javascript:void(0)" onclick="showSection('cadastro')">Cadastro de Funcionários</a></li>
                 <li><a href="javascript:void(0)" onclick="showSection('contratacao')">Contratação de Serviços</a></li>
                 <li><a href="javascript:void(0)" onclick="showSection('visualizar-contratacoes')">Visualizar Contratações</a></li>
@@ -28,62 +45,83 @@
         </nav>
 
         <div class="main-content">
-            <section id="cadastro" style="display: none;">
+            <!-- Seção Cadastro de Funcionários -->
+            <section id="cadastro" class="hidden">
                 <h1>Cadastro de Funcionários</h1>
                 <form action="/cadastro" method="POST">
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" required>
-                    
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" required>
-                    
-                    <label for="funcao">Função:</label>
-                    <select id="funcao" name="funcao">
-                        <option value="faxineiro">Faxineiro</option>
-                        <option value="cozinheiro">Cozinheiro</option>
-                        <option value="babá">Babá</option>
-                        <option value="jardineiro">Jardineiro</option>
-                    </select>
-                    
-                    <button type="submit">Cadastrar</button>
+                    <!-- Utilização de 'fieldset' e 'legend' para melhorar a organização e acessibilidade -->
+                    <fieldset>
+                        <legend>Informações do Funcionário</legend>
+
+                        <!-- Campo de Nome -->
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+
+                        <!-- Campo de Email -->
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <!-- Campo de Telefone com padrão de validação -->
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" id="telefone" name="telefone" pattern="\(\d{2}\) \d{4,5}-\d{4}" required title="Formato: (XX) XXXX-XXXX ou (XX) XXXXX-XXXX">
+
+                        <!-- Campo de Função com opções de escolha -->
+                        <label for="funcao">Função:</label>
+                        <select id="funcao" name="funcao">
+                            <option value="faxineiro">Faxineiro</option>
+                            <option value="cozinheiro">Cozinheiro</option>
+                            <option value="babá">Babá</option>
+                            <option value="jardineiro">Jardineiro</option>
+                        </select>
+
+                        <button type="submit">Cadastrar</button>
+                    </fieldset>
                 </form>
             </section>
 
-            <section id="contratacao" style="display: none;">
+            <!-- Seção de Contratação de Serviços -->
+            <section id="contratacao" class="hidden">
                 <h1>Contratação de Serviços</h1>
                 <form action="/contratacao" method="POST">
-                    <label for="servico">Serviço:</label>
-                    <select id="servico" name="servico">
-                        <option value="faxina">Faxina</option>
-                        <option value="cozinha">Cozinha</option>
-                        <option value="cuidado_criancas">Cuidado de Crianças</option>
-                        <option value="jardinagem">Jardinagem</option>
-                    </select>
-            
-                    <label for="data">Data do Serviço:</label>
-                    <input type="date" id="data" name="data" required>
-            
-                    <label for="detalhes">Detalhes do Serviço:</label>
-                    <textarea id="detalhes" name="detalhes" rows="4"></textarea>
-                    
-                    <label for="funcionario_id">Funcionário:</label>
-                    <select id="funcionario_id" name="funcionario_id" required>
-                        {% for funcionario in funcionarios %}
-                            <option value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
-                        {% endfor %}
-                    </select>
-                    
-                    <button type="submit">Contratar</button>
+                    <fieldset>
+                        <legend>Detalhes do Serviço</legend>
+
+                        <!-- Campo de Serviço -->
+                        <label for="servico">Serviço:</label>
+                        <select id="servico" name="servico">
+                            <option value="faxina">Faxina</option>
+                            <option value="cozinha">Cozinha</option>
+                            <option value="cuidado_criancas">Cuidado de Crianças</option>
+                            <option value="jardinagem">Jardinagem</option>
+                        </select>
+
+                        <!-- Campo de Data do Serviço -->
+                        <label for="data">Data do Serviço:</label>
+                        <input type="date" id="data" name="data" required>
+
+                        <!-- Campo de Detalhes -->
+                        <label for="detalhes">Detalhes do Serviço:</label>
+                        <textarea id="detalhes" name="detalhes" rows="4"></textarea>
+
+                        <!-- Campo de Seleção de Funcionário -->
+                        <label for="funcionario_id">Funcionário:</label>
+                        <select id="funcionario_id" name="funcionario_id" required>
+                            {% for funcionario in funcionarios %}
+                                <option value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <button type="submit">Contratar</button>
+                    </fieldset>
                 </form>
             </section>
 
-            <section id="visualizar-contratacoes" style="display: none;">
+            <!-- Seção de Visualização das Contratações -->
+            <section id="visualizar-contratacoes" class="hidden">
                 <h1>Contratações Realizadas</h1>
                 {% if contratacoes %}
-                    <table>
+                    <!-- Exibição de contratações em uma tabela -->
+                    <table aria-labelledby="contratacoes-title">
                         <thead>
                             <tr>
                                 <th>Serviço</th>
