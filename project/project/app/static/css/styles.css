@@ -1,8 +1,12 @@
+/* Base styles with improved readability */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    font-size: 16px; /* MELHORIA: Tamanho base de fonte mais legível */
+    line-height: 1.5; /* MELHORIA: Melhor espaçamento entre linhas para maior legibilidade */
+    color: #333; /* MELHORIA: Cor de texto padrão com contraste adequado */
 }
 
 .container {
@@ -13,10 +17,11 @@ body {
     padding: 20px;
 }
 
+/* Sidebar com melhor contraste e acessibilidade */
 .sidebar {
     flex: 1;
     min-width: 200px;
-    background-color: #333;
+    background-color: #222; /* MELHORIA: Escurecido para melhor contraste com texto branco */
     color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -24,6 +29,7 @@ body {
 
 .sidebar h2 {
     text-align: center;
+    margin-top: 0; /* MELHORIA: Espaçamento mais consistente */
 }
 
 .sidebar ul {
@@ -39,13 +45,24 @@ body {
     color: #fff;
     text-decoration: none;
     display: block;
-    padding: 10px;
+    padding: 12px; /* MELHORIA: Área alvo maior para facilitar o clique */
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
+/* MELHORIA: Foco visível para navegação por teclado */
+.sidebar ul li a:focus {
+    outline: 3px solid #4a90e2;
+    outline-offset: 2px;
+}
+
 .sidebar ul li a:hover {
     background-color: #575757;
+}
+
+/* MELHORIA: Mantém o contorno visível mesmo durante hover */
+.sidebar ul li a:hover:focus {
+    outline: 3px solid #4a90e2;
 }
 
 .main-content {
@@ -55,15 +72,22 @@ body {
     padding: 20px;
     border-radius: 8px;
     margin-left: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* MELHORIA: Sombra sutil para melhor separação visual */
 }
 
 .hidden {
     display: none;
 }
 
+/* MELHORIA: Layout responsivo aprimorado */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* MELHORIA: Define explicitamente a direção na versão móvel */
+    }
     .sidebar {
-        display: none;
+        display: block; /* MELHORIA: Exibir sidebar em telas pequenas */
+        width: 100%;
+        margin-bottom: 20px;
     }
     .main-content {
         width: 100%;
@@ -71,6 +95,7 @@ body {
     }
 }
 
+/* MELHORIA: Formulários mais acessíveis */
 fieldset {
     border: 1px solid #ccc;
     padding: 20px;
@@ -86,26 +111,64 @@ legend {
 label {
     display: block;
     margin: 10px 0 5px;
+    font-weight: 500; /* MELHORIA: Peso visual mais forte para labels */
+}
+
+/* MELHORIA: Marcador para campos obrigatórios */
+.required-field::after {
+    content: " *";
+    color: #d00;
+    font-weight: bold;
 }
 
 input, select, textarea, button {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* MELHORIA: Campos maiores para facilitar interação */
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1rem; /* MELHORIA: Tamanho de fonte consistente nos campos */
+}
+
+/* MELHORIA: Estados de foco aprimorados para todos os controles interativos */
+input:focus, select:focus, textarea:focus, button:focus {
+    outline: 3px solid #4a90e2;
+    outline-offset: 2px;
+    border-color: #4a90e2;
+}
+
+/* MELHORIA: Estilo para campos com erro */
+.input-error {
+    border: 2px solid #d00;
+}
+
+.error-message {
+    color: #d00;
+    font-weight: bold;
+    margin-top: -5px;
+    margin-bottom: 10px;
 }
 
 button {
-    background-color: #333;
+    background-color: #0056b3; /* MELHORIA: Cor com melhor contraste */
     color: #fff;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-weight: bold; /* MELHORIA: Texto em negrito para maior legibilidade */
+    padding: 12px 15px; /* MELHORIA: Área de clique maior */
 }
 
 button:hover {
-    background-color: #575757;
+    background-color: #003d82; /* MELHORIA: Cor de hover mais distinta */
+}
+
+/* MELHORIA: Desativa animações para usuários que preferem movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
 }
 
 .services {
@@ -113,6 +176,7 @@ button:hover {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
+    gap: 20px; /* MELHORIA: Espaçamento consistente entre itens com gap */
 }
 
 .service {
@@ -121,21 +185,66 @@ button:hover {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin: 10px;
+    margin: 0; /* MELHORIA: Removido margin em favor do gap */
     padding: 20px;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* MELHORIA: Sombra sutil para melhor separação visual */
 }
 
 .service img {
     max-width: 100%;
+    height: auto; /* MELHORIA: Mantém proporção da imagem */
     border-radius: 8px;
 }
 
 .service h3 {
-    margin-top: 10px;
-    color: #333;
+    margin-top: 15px;
+    color: #222; /* MELHORIA: Cor mais escura para melhor contraste */
 }
 
 .service p {
-    color: #666;
+    color: #444; /* MELHORIA: Texto mais escuro para melhor contraste (era #666) */
+}
+
+/* MELHORIA: Suporte a modo escuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #f0f0f0;
+    }
+    
+    .main-content {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    
+    .service {
+        background-color: #2d2d2d;
+        border-color: #444;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    
+    .service h3 {
+        color: #f0f0f0;
+    }
+    
+    .service p {
+        color: #ccc;
+    }
+    
+    input, select, textarea {
+        background-color: #2d2d2d;
+        color: #f0f0f0;
+        border-color: #444;
+    }
+    
+    fieldset {
+        border-color: #444;
+    }
+    
+    /* MELHORIA: Cor de foco mais visível em modo escuro */
+    input:focus, select:focus, textarea:focus, button:focus {
+        outline-color: #6ab0ff;
+    }
 }
